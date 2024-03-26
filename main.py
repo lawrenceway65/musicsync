@@ -1,7 +1,5 @@
-# This is a sample Python script.
+# Simple rsync type functionality based on comparison of file size only.
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import os
 import shutil
 
@@ -9,6 +7,7 @@ import shutil
 source_dir = "C:\\Users\\lawre\\OneDrive\\Music"
 # dest_dir = "C:\\Users\\lawre\\Local\\MusicTestSync"
 dest_dir = "D:\\Music"
+
 
 def music_sync():
     dir_count = 0
@@ -55,4 +54,3 @@ def music_sync():
 if __name__ == '__main__':
     music_sync()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
