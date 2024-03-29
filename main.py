@@ -3,13 +3,27 @@
 import os
 import shutil
 
-source_root = "C:\\Users\\lawre\\Local\\MusicTest"
-#source_root = "C:\\Users\\lawre\\OneDrive\\Music"
-dest_root = "C:\\Users\\lawre\\Local\\MusicTestSync"
+# Laptop
+# source_root = "C:\\Users\\lawre\\Local\\MusicTest"
+# dest_root = "C:\\Users\\lawre\\Local\\MusicTestSync"
+
+# Test
 #dest_root = "D:\\Music"
+#source_root = "C:\\Users\\lawre\\OneDrive\\Music"
+
+source_root = "C:\\Users\\Lawrence\\OneDrive\\Music"
+dest_root = "K:\\Music"
 
 
 def music_sync():
+    # Check dirs present
+    if not os.path.exists(source_root):
+        print("Source directory not found")
+        exit()
+    if not os.path.exists(dest_root):
+        print("Destination directory not found")
+        exit()
+
     # Remove directories/files on destination that are not present on source
     items_removed = 0
     for (root, dirlist, filelist) in os.walk(dest_root, topdown=True):
