@@ -14,6 +14,8 @@ import shutil
 source_root = "C:\\Users\\Lawrence\\OneDrive\\Music"
 dest_root = "K:\\Music"
 
+excluded_list = ["desktop.ini", "Thumbs.db"]
+
 
 def music_sync():
     # Check dirs present
@@ -26,10 +28,10 @@ def music_sync():
 
     # Remove directories/files on destination that are not present on source
     items_removed = 0
-    for (root, dirlist, filelist) in os.walk(dest_root, topdown=True):
-        dirs = [n for n in dirlist]
-        for i in dirs:
-            dest_dir = root + "\\" + i
+    for (root, dirs, files) in os.walk(dest_root, topdown=True):
+        dirlist = [n for n in dirs]
+        for dir in dirlist:
+            dest_dir = root + "\\" + dir
             source_dir = source_root + dest_dir[len(dest_root):len(dest_dir)]
             # Check if source dir exists
             if not os.path.exists(source_dir):
@@ -38,10 +40,10 @@ def music_sync():
                 items_removed += 1
                 # No need to check files - rmtree will have removed them
                 continue
-            files = os.scandir(dest_dir)
-            for n in files:
-                if n.is_file():
-                    dest_filespec = dest_dir + "\\" + n.name
+            filelist = os.scandir(dest_dir)
+            for file in filelist:
+                if file.is_file():
+                    dest_filespec = dest_dir + "\\" + file.name
                     source_filespec = source_root + dest_filespec[len(dest_root):len(dest_filespec)]
 #                    print(source_filespec)
                     if not os.path.exists(source_filespec):
@@ -53,20 +55,28 @@ def music_sync():
     # Copy any file either not present on dest or present but different size
     dir_count = 0
     diff_count = 0
-    for (root, dirlist, filelist) in os.walk(source_root, topdown=True):
-        dirs = [n for n in dirlist]
-        for i in dirs:
+    for (root, dirs, files) in os.walk(source_root, topdown=True):
+        dirlist = [n for n in dirs]
+        for dir in dirlist:
             dir_count += 1
-            source_dir = root + "\\" + i
+            source_dir = root + "\\" + dir
             dest_dir = dest_root + source_dir[len(source_root):len(source_dir)]
             # Check if dest dir exists
             if not os.path.exists(dest_dir):
                 print("Create directory: " + dest_dir)
                 os.mkdir(dest_dir)
-            files = os.scandir(source_dir)
-            for n in files:
-                if n.is_file():
-                    source_filespec = source_dir + "\\" + n.name
+            filelist = os.scandir(source_dir)
+            for file in filelist:
+                # Check excluded list
+                exclude = False
+                for name in excluded_list:
+                    if name == file.name:
+                        exclude = True
+                if exclude:
+                    continue
+
+                if file.is_file():
+                    source_filespec = source_dir + "\\" + file.name
                     source_size = os.path.getsize(source_filespec)
                     dest_filespec = dest_root + source_filespec[len(source_root):len(source_filespec)]
                     update = False
