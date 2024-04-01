@@ -11,7 +11,8 @@ import shutil
 #dest_root = "D:\\Music"
 #source_root = "C:\\Users\\lawre\\OneDrive\\Music"
 
-source_root = "C:\\Users\\Lawrence\\OneDrive\\Music"
+# PC
+source_root = "D:\\OneDrive\\Music"
 dest_root = "K:\\Music"
 
 excluded_list = ["desktop.ini", "Thumbs.db"]
